@@ -16,8 +16,8 @@ import java.math.BigInteger;
 @EqualsAndHashCode(of = "id")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 

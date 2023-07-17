@@ -1,6 +1,7 @@
 package com.example.auth.infra.security;
 
 import com.example.auth.repositories.UserRepository;
+import com.example.auth.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,10 +17,12 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
+
     @Autowired
-    TokenService tokenService;
+    private TokenService tokenService;
+
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,9 +37,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String recoverToken(HttpServletRequest request){
+    private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
-        if(authHeader == null) return null;
+        if(authHeader == null) {
+            return null;
+        }
         return authHeader.replace("Bearer ", "");
     }
 }
